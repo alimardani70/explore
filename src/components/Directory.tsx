@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Icon from "./Icon";
 
 
@@ -17,6 +17,7 @@ type propsType = {
 const Directory: React.FC<propsType> = ({
                                             name
                                         }) => {
+    const [open , setOpen] = useState<boolean>(false);
     return (
         <div>
             <div>{name}</div>
