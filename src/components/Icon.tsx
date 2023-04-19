@@ -1,27 +1,26 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-svg-core';
+
+import {
+    IconStyle
+} from '@fortawesome/fontawesome-common-types';
 
 type propsType = {
-    name: string,
-    type: 'solid' | 'regular' | 'brands'
+    name: IconName ,
+    type: IconStyle
 }
+// library.add(fab, far, fas);
 
 const Icon: React.FC<propsType>  = ({
                                         name,
                                         type
                                     }) => {
+
  return (
   <>
-      <FontAwesomeIcon icon={icon({name: 'user-secret'})} /> // Defaults to the Classic family, Solid style
-      <FontAwesomeIcon icon={icon({name: 'twitter', style: 'brands'})} /> // A brand icon
-      <FontAwesomeIcon icon={icon({name: 'folder', style: 'regular'})} /> // A brand icon
-      <FontAwesomeIcon icon={icon({name: 'folder-open', style: 'regular'})} /> // A brand icon
-      <FontAwesomeIcon icon={icon({name: 'twitter', style: 'brands'})} /> // A brand icon
-      <FontAwesomeIcon icon={icon({name: 'twitter', style: 'brands'})} /> // A brand icon
-      <FontAwesomeIcon icon={icon({name: 'twitter', style: 'brands'})} /> // A brand icon
-      <FontAwesomeIcon icon={icon({name: 'twitter', style: 'brands'})} /> // A brand icon
+      <FontAwesomeIcon icon={[type as IconPrefix, name as IconName]}  />
   </>
  );
 };
