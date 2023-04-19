@@ -22,7 +22,7 @@ const initialState: folderType = {
   name: 'root',
   content: [],
   files: [],
-  opened: false,
+  opened: true,
   path: '.'
 };
 
@@ -41,7 +41,7 @@ export const structureSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state, action: PayloadAction<fileType>) => {
-      console.log(action.payload)
+
       let {name, extension, path} = action.payload;
       const newFile: fileType = {
         name: name,
@@ -83,13 +83,53 @@ export const structureSlice = createSlice({
         }
       }
     },
-    remove: (state, action: PayloadAction<fileType>) => {
-
+    removeFile: (state, action: PayloadAction<fileType>) => {
+      let {name, extension, path} = action.payload;
+      const newFile: fileType = {
+        name: name,
+        extension: extension,
+        path: path
+      }
+      let sections = path.split('/');
+      let searchObj = state;
+      for (let i = 0; i < sections.length - 1; i++) {
+        let node = findNode(searchObj, sections.slice(0, i + 1).join('/'), sections[i + 1]);
+        searchObj = node;
+        let index = searchObj.files.findIndex(item => item.name === name && item.extension === extension)
+        if (index !== -1) {
+          let temp = [
+            ...searchObj.files.slice(0, index),
+            ...searchObj.files.slice(index + 1),
+          ];
+          searchObj.files = temp;
+        }
+      }
     },
+    removeDir: (state, action: PayloadAction<{ path: string }>) => {
+      let sections = action.payload.path.split('/');
+      const path = sections.slice(0, -1).join('/');
+      let folderName = sections.slice(-1)['0'];
+      let searchObj = state;
+      for (let i = 0; i < sections.length - 1; i++) {
+        let node = findNode(searchObj, sections.slice(0, i + 1).join('/'), sections[i + 1]);
+        searchObj = node;
+        if (path === searchObj.path + "/" + searchObj.name) {
+          let index = searchObj.content.findIndex(item => item.name === folderName);
+          console.log(index)
+          if (index !== -1) {
+            let temp = [
+              ...searchObj.content.slice(0, index),
+              ...searchObj.content.slice(index + 1),
+            ];
+            searchObj.content = temp;
+          }
+        }
+      }
+    }
   },
 });
 
-export const {addItem, addFolder, remove} = structureSlice.actions;
+export const {addItem, addFolder, removeFile, removeDir} = structureSlice.actions;
 
 export const selectName = (state: RootState) => state.structure.name;
 export const selectContent = (state: RootState) => state.structure.content;

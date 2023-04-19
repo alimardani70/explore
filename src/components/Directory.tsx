@@ -2,16 +2,18 @@ import React, {ReactNode, useState} from 'react';
 import Icon from "./Icon";
 import NewItem from "./NewItem";
 import Button from "./Button";
-import {addFolder, addItem, fileType, folderType} from '../store/structureSlice'
+import {addFolder, addItem, removeDir, removeFile ,fileType, folderType} from '../store/structureSlice'
 import {useDispatch} from "react-redux";
+import DeleteItem from "./DeleteItem";
 
 const Directory: React.FC<folderType> = ({
                                              name,
                                              content,
                                              files,
-                                             opened = false,
+                                             opened = true,
                                              path
                                          }) => {
+    console.log(opened)
     const [open, setOpen] = useState<boolean>(opened);
     const onclickHandler = () => {
         setOpen(!open);
@@ -42,9 +44,9 @@ const Directory: React.FC<folderType> = ({
     const child = (item: folderType | fileType): any => {
         if ('extension' in item) {
             let icon = getIconByExt(item.extension)
-            return <div>
+            return <div className='flex flex-row'>
                 {icon} {item.name}.{item.extension}
-                <Button> <Icon name={'trash-can'} type='regular'/></Button>
+                <DeleteItem path={item.path} onClick={(path)=>romoveFileHandler(path,item.name ,item.extension  )} />
             </div>
         } else {
             if ('content' in item)
@@ -65,6 +67,16 @@ const Directory: React.FC<folderType> = ({
             return dispatch(addItem({name: item, path: path + "/" + name, extension: 'unknown'}))
         }
     }
+    const removeHandler = (path: string):void => {
+        console.log(path)
+        dispatch(removeDir({path: path}))
+    }
+    const romoveFileHandler=(path:string , name:string , extension:string):void=>{
+        dispatch(removeFile({path:path ,name: name ,extension: extension  }))
+    }
+
+
+
     return (
         <div>
             <div className='flex flex-row'>
@@ -89,7 +101,10 @@ const Directory: React.FC<folderType> = ({
                         onSubmit={(item) => addFileHandler(item)}
                         icon={<Icon name='file-circle-plus' type='solid'/>}
                     />
-                    <Button> <Icon name={'trash-can'} type='regular'/></Button>
+                    <DeleteItem
+                        path={path + "/" + name}
+                        onClick={(path)=>removeHandler(path)}
+                    />
                 </div>
             </div>
 
