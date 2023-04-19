@@ -56,21 +56,16 @@ export const structureSlice = createSlice({
       let sections = path.split('/');
       let searchObj = state;
       for (let i = 0; i < sections.length - 1; i++) {
-        if (path === searchObj.path + "/" + searchObj.name) {
-          if(searchObj.content.findIndex(item => item.name === name) === -1){
-            searchObj.content.push(newFolder)
-          }else{
-            alert(' this name is exist')
-          }
-        } else {
-          let node = findNode(searchObj, sections.slice(0,i+1).join('/') , sections[i+1]);
-          searchObj = node ;
-          if (path == searchObj.path + "/" + searchObj.name) {
-            searchObj.content.push(newFolder)
-          }
+        let node = findNode(searchObj, sections.slice(0,i+1).join('/') , sections[i+1]);
+        searchObj = node ;
+        if (path == searchObj.path + "/" + searchObj.name) {
+            if(searchObj.content.findIndex(item => item.name === name) === -1){
+              searchObj.content.push(newFolder)
+            }else{
+              alert(' this name is exist')
+            }
         }
       }
-
     },
     remove: (state, action: PayloadAction<fileType>) => {
 
