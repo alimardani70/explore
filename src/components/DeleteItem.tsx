@@ -4,6 +4,7 @@ import Input from "./Input";
 import Button from "./Button";
 import Icon from "./Icon";
 import {fileType, folderType} from "../store/structureSlice";
+import Row from "./Row";
 
 
 type propsType = {
@@ -17,22 +18,20 @@ const NewItem: React.FC<propsType> = ({
                                           }) => {
 
     const clickHandler = (e: React.MouseEvent<HTMLElement>) => {
-        console.log("sdcsdcsdc")
         if (onClick) {
             onClick(path);
         }
     }
-    console.log(path)
     return (
-        <div className='flex flex-row'>
+        <Row>
                  {
                      // path  !== './root' &&
-                     <Button onClick={clickHandler}>
-                         <Icon name={'trash-can'} type='regular'/>
+                     <Button onClick={clickHandler} className='bg-red-600 px-2 py-1 rounded'>
+                         <Icon name={'trash-can'} type='regular' className='text-white'/>
                      </Button>
                  }
 
-        </div>
+        </Row>
 
     );
 };

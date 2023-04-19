@@ -13,42 +13,18 @@ library.add(fab, far, fas);
 function App() {
     const name = useSelector(selectName);
     const content = useSelector(selectContent);
-    const  openend = useSelector(selectOpened);
+    const  opened = useSelector(selectOpened);
     const  path = useSelector(selectPath);
     const files = useSelector(selectFiles);
-    console.log(content)
     return (
         <div className="App">
             <Directory
                 name={name}
                 content={content}
                 files={files}
-                opened={openend}
+                opened={opened}
                 path={path}
             />
-{/*            <Directory
-                name={name}
-                path='./'
-                content={[
-                    {name: 'ali', extension: 'txt'},
-                    {
-                        name: 'newFolder',
-                        path: './root/',
-                        content: [
-                            {name: 'txt1', extension: 'jpg'},
-                            {name: 'txt2', extension: 'html'},
-                            {name: 'txt3', extension: 'txt'},
-                            {name: 'txt4', extension: 'any'},
-                        ]
-                    },
-                    {name: 'asd', extension: 'pdf'},
-                    {
-                        name: 'newFolder2',
-                        content: [],
-                        path: './root/'
-                    }
-                ]}
-            />*/}
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import type {PayloadAction} from "@reduxjs/toolkit";
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, current} from "@reduxjs/toolkit";
 import type {RootState} from "./store";
 
 
@@ -28,14 +28,13 @@ const initialState: folderType = {
 
 const findNode = (node: folderType, path: string, nodeName: string): folderType => {
   for (let i = 0; i < node.content.length; i++) {
-    // console.log(node.content[i].path , path)
-    // console.log(nodeName , node.content[i].name)
     if (node.content[i].path === path && nodeName === node.content[i].name) {
       return node.content[i];
     }
   }
   return node;
 }
+
 export const structureSlice = createSlice({
   name: "structure",
   initialState,
@@ -54,7 +53,9 @@ export const structureSlice = createSlice({
         let node = findNode(searchObj, sections.slice(0, i + 1).join('/'), sections[i + 1]);
         searchObj = node;
         if (searchObj.files.findIndex(item => item.name === name && item.extension === extension) === -1) {
-          searchObj.files.push(newFile)
+         if (searchObj.path+"/"+searchObj.name === path ){
+           searchObj.files.push(newFile)
+         }
         } else {
           alert(' this name is exist')
         }
@@ -115,7 +116,6 @@ export const structureSlice = createSlice({
         searchObj = node;
         if (path === searchObj.path + "/" + searchObj.name) {
           let index = searchObj.content.findIndex(item => item.name === folderName);
-          console.log(index)
           if (index !== -1) {
             let temp = [
               ...searchObj.content.slice(0, index),

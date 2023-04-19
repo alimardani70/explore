@@ -3,6 +3,7 @@ import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";
 import Icon from "./Icon";
+import Row from "./Row";
 
 
 type propsType = {
@@ -31,9 +32,11 @@ const NewItem: React.FC<propsType> = ({
         if (onSubmit) {
             onSubmit(itemValue)
         }
+        setItemValue('')
+        setShowInput(false)
     }
     return (
-        <div className='flex flex-row'>
+        <Row>
             {showInput && <Button onClick={closeHandler}>
                 <Icon name='close' type='solid'/>
             </Button>}
@@ -46,7 +49,7 @@ const NewItem: React.FC<propsType> = ({
                     <Icon name='check-square' type='solid'/>
                 </Button>
             </Form>}
-        </div>
+        </Row>
 
     );
 };
