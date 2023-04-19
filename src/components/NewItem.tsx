@@ -28,13 +28,9 @@ const NewItem: React.FC<propsType> = ({
     }
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(itemValue)
-        // dispatch(addItem({name: itemValue, path: path  }))
-        // dispatch(addFolder({name: itemValue, path: path ,content : [] , files:[]}))
         if (onSubmit) {
             onSubmit(itemValue)
         }
-        // setItemValue('')
     }
     return (
         <div className='flex flex-row'>
