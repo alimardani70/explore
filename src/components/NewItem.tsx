@@ -1,17 +1,22 @@
-import React, {FormEvent, useState} from 'react';
+import React, {FormEvent, ReactNode, useState} from 'react';
 import Form from "./Form";
 import Input from "./Input";
 import Button from "./Button";
 import Icon from "./Icon";
-import {useDispatch} from "react-redux";
-import {addFolder, addItem} from "../store/structureSlice";
 
-type propsType = { path: string  }
 
-const NewItem: React.FC<propsType> = ({path}) => {
+type propsType = {
+    path: string;
+    onSubmit?: (item: any) => void;
+    icon: ReactNode
+}
+
+const NewItem: React.FC<propsType> = ({
+                                          path,
+                                          onSubmit,
+                                          icon}) => {
     const [showInput, setShowInput] = useState<boolean>(false);
     const [itemValue, setItemValue] = useState<any>('');
-    const dispatch = useDispatch()
     const addNewHandler = () => {
         setShowInput(true);
     }
@@ -19,14 +24,16 @@ const NewItem: React.FC<propsType> = ({path}) => {
         setShowInput(false);
     }
     const changeHandler = (args: any) => {
-        // console.log(args)
         setItemValue(args)
     }
     const submitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        console.log(itemValue)
         // dispatch(addItem({name: itemValue, path: path  }))
-        dispatch(addFolder({name: itemValue, path: path ,content : [] , files:[]}))
+        // dispatch(addFolder({name: itemValue, path: path ,content : [] , files:[]}))
+        if (onSubmit) {
+            onSubmit(itemValue)
+        }
         // setItemValue('')
     }
     return (
@@ -35,7 +42,7 @@ const NewItem: React.FC<propsType> = ({path}) => {
                 <Icon name='close' type='solid'/>
             </Button>}
             {!showInput && <Button onClick={addNewHandler}>
-                <Icon name='plus-circle' type='solid'/>
+                {icon}
             </Button>}
             {showInput && <Form>
                 <Input name='name' onChange={changeHandler} value={itemValue}/>

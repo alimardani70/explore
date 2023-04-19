@@ -2,8 +2,8 @@ import React, {ReactNode, useState} from 'react';
 import Icon from "./Icon";
 import NewItem from "./NewItem";
 import Button from "./Button";
-import {fileType, folderType} from '../store/structureSlice'
-
+import {addFolder, addItem, fileType, folderType} from '../store/structureSlice'
+import {useDispatch} from "react-redux";
 
 const Directory: React.FC<folderType> = ({
                                              name,
@@ -16,6 +16,7 @@ const Directory: React.FC<folderType> = ({
     const onclickHandler = () => {
         setOpen(!open);
     }
+    const dispatch = useDispatch()
 
     const getIconByExt = (ext: string): ReactNode => {
         let icon: ReactNode = '';
@@ -52,7 +53,18 @@ const Directory: React.FC<folderType> = ({
                 </>
         }
     }
-
+    const addFileHandler = (item: any) => {
+        let arr = item.split('.')
+        if (arr.length > 1) {
+            return dispatch(addItem({
+                name: arr.slice(0, -1).join('.'),
+                path: path + "/" + name,
+                extension: arr.slice(-1)[0]
+            }))
+        } else {
+            return dispatch(addItem({name: item, path: path + "/" + name, extension: 'unknown'}))
+        }
+    }
     return (
         <div>
             <div className='flex flex-row'>
@@ -62,16 +74,37 @@ const Directory: React.FC<folderType> = ({
                     {name}
                 </Button>
                 <div className='flex flex-row space-x-2'>
-                    <NewItem path={path + "/" + name}/>
+                    <NewItem
+                        path={path + "/" + name}
+                        onSubmit={(item) => dispatch(addFolder({
+                            name: item,
+                            path: path + "/" + name,
+                            content: [],
+                            files: []
+                        }))}
+                        icon={<Icon name='check-square' type='solid'/>}
+                    />
+                    <NewItem
+                        path={path + "/" + name}
+                        onSubmit={(item) => addFileHandler(item)}
+                        icon={<Icon name='file-circle-plus' type='solid'/>}
+                    />
                     <Button> <Icon name={'trash-can'} type='regular'/></Button>
                 </div>
             </div>
 
-            {open && !!content && content.map((item: folderType | fileType, index: number) => {
-                return <div key={index} className='flex flex-row space-x-4  px-8'>
-                    {child(item)}
-                </div>
-            })
+            {open && <>
+                {!!content && content.map((item: folderType, index: number) => {
+                    return <div key={index} className='flex flex-row space-x-4  px-8'>
+                        {child(item)}
+                    </div>
+                })}
+                {!!files && files.map((item: fileType, index: number) => {
+                    return <div key={index} className='flex flex-row space-x-4  px-8'>
+                        {child(item)}
+                    </div>
+                })}
+            </>
             }
 
         </div>
