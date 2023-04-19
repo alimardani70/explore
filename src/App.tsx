@@ -1,48 +1,56 @@
 import React from 'react';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab} from '@fortawesome/free-brands-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fab} from '@fortawesome/free-brands-svg-icons'
+import {far} from '@fortawesome/free-regular-svg-icons'
+import {fas} from '@fortawesome/free-solid-svg-icons'
 
 import Directory from "./components/Directory";
-import Icon from "./components/Icon";
+import {selectName,selectContent, selectFiles ,selectOpened , selectPath} from "./store/structureSlice";
+import { useSelector } from 'react-redux'
+
 library.add(fab, far, fas);
 
 function App() {
-  return (
-    <div className="App">
-      <div className='border border-amber-600 bg-gray-50 drop-shadow transition-shadow flex flex-row justify-around py-4 rounded-2xl'>
-          <Icon name='folder' type='solid'  className='text-sky-600'/>
-          <Icon name='folder-open'  type='regular' />
-          <Icon name='folder-plus'  type='solid' />
-          <Icon name='file-circle-plus'  type='solid' />
-          <Icon name='file'  type='solid' />
-          <Icon name='file-lines'  type='solid' />
-          <Icon name='file-pdf'  type='solid' />
-          <Icon name='image'  type='solid' />
-          <Icon name='html5'  type='brands' />
-          <Icon name='angle-right'  type='solid' />
-          <Icon name='angle-down'  type='solid' />
-      </div>
-        <div className='border mt-2 border-amber-600 bg-gray-100 drop-shadow transition-shadow'>
-
-        <Directory
-            name={'Root'}
-            content={[
-                {name:'ali', extension : 'txt'},
-                {name:'newFolder', content: [
-                        {name:'txt1', extension : 'jpg'},
-                        {name:'txt2', extension : 'html'},
-                        {name:'txt3', extension : 'txt'},
-                        {name:'txt4', extension : 'any'},
-                    ] },
-                {name: 'asd',extension:'pdf'},
-                {name:'newFolder2' , content: []}
-            ]}
-          />
-      </div>
-    </div>
-  );
+    const name = useSelector(selectName);
+    const content = useSelector(selectContent);
+    const  openend = useSelector(selectOpened);
+    const  path = useSelector(selectPath);
+    const files = useSelector(selectFiles);
+    console.log(content)
+    return (
+        <div className="App">
+            <Directory
+                name={name}
+                content={content}
+                files={files}
+                opened={openend}
+                path={path}
+            />
+{/*            <Directory
+                name={name}
+                path='./'
+                content={[
+                    {name: 'ali', extension: 'txt'},
+                    {
+                        name: 'newFolder',
+                        path: './root/',
+                        content: [
+                            {name: 'txt1', extension: 'jpg'},
+                            {name: 'txt2', extension: 'html'},
+                            {name: 'txt3', extension: 'txt'},
+                            {name: 'txt4', extension: 'any'},
+                        ]
+                    },
+                    {name: 'asd', extension: 'pdf'},
+                    {
+                        name: 'newFolder2',
+                        content: [],
+                        path: './root/'
+                    }
+                ]}
+            />*/}
+        </div>
+    );
 }
 
 export default App;

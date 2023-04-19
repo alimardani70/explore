@@ -2,27 +2,16 @@ import React, {ReactNode, useState} from 'react';
 import Icon from "./Icon";
 import NewItem from "./NewItem";
 import Button from "./Button";
+import {fileType, folderType} from '../store/structureSlice'
 
 
-type contentType = {
-    name: string,
-    extension: string
-}
-
-type propsType = {
-    name: string,
-    content: (contentType | propsType)[] | [],
-    opened?: boolean
-}
-const isFile = (object: any) => {
-    return 'extension' in object;
-}
-
-const Directory: React.FC<propsType> = ({
-                                            name,
-                                            content,
-                                            opened = false
-                                        }) => {
+const Directory: React.FC<folderType> = ({
+                                             name,
+                                             content,
+                                             files,
+                                             opened = false,
+                                             path
+                                         }) => {
     const [open, setOpen] = useState<boolean>(opened);
     const onclickHandler = () => {
         setOpen(!open);
@@ -49,7 +38,7 @@ const Directory: React.FC<propsType> = ({
         }
         return icon;
     }
-    const child = (item: propsType | contentType): any => {
+    const child = (item: folderType | fileType): any => {
         if ('extension' in item) {
             let icon = getIconByExt(item.extension)
             return <div>
@@ -59,27 +48,27 @@ const Directory: React.FC<propsType> = ({
         } else {
             if ('content' in item)
                 return <>
-                    <Directory name={item.name} content={item.content}></Directory>
+                    <Directory files={item.files} name={item.name} content={item.content} path={item.path}></Directory>
                 </>
         }
     }
+
     return (
         <div>
             <div className='flex flex-row'>
-
                 <Button onClick={onclickHandler}>
                     {open && <><Icon name='angle-down' type='solid'/><Icon name='folder-open' type='solid'/></>}
                     {!open && <><Icon name='angle-right' type='solid'/><Icon name='folder' type='solid'/></>}
                     {name}
                 </Button>
                 <div className='flex flex-row space-x-2'>
-                    <NewItem/>
+                    <NewItem path={path + "/" + name}/>
                     <Button> <Icon name={'trash-can'} type='regular'/></Button>
                 </div>
             </div>
 
-            {open && !!content && content.map((item: propsType | contentType, index: number) => {
-                return <div key={index} className='flex flex-row space-x-4'>
+            {open && !!content && content.map((item: folderType | fileType, index: number) => {
+                return <div key={index} className='flex flex-row space-x-4  px-8'>
                     {child(item)}
                 </div>
             })
