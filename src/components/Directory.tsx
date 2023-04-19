@@ -94,7 +94,7 @@ const Directory: React.FC<folderType> = ({
                             content: [],
                             files: []
                         }))}
-                        icon={<Icon name='check-square' type='solid'/>}
+                        icon={<Icon name='folder-plus' type='solid'/>}
                     />
                     <NewItem
                         path={path + "/" + name}
