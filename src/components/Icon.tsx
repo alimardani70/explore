@@ -9,18 +9,20 @@ import {
 
 type propsType = {
     name: IconName ,
-    type: IconStyle
+    type: IconStyle,
+    className?: string
 }
 // library.add(fab, far, fas);
 
 const Icon: React.FC<propsType>  = ({
                                         name,
-                                        type
+                                        type,
+                                        className
                                     }) => {
 
  return (
   <>
-      <FontAwesomeIcon icon={[type as IconPrefix, name as IconName]}  />
+      <FontAwesomeIcon icon={[type as IconPrefix, name as IconName]} className={className}  />
   </>
  );
 };

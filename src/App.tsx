@@ -11,8 +11,8 @@ library.add(fab, far, fas);
 function App() {
   return (
     <div className="App">
-      <div className='border border-amber-600 bg-gray-200 drop-shadow transition-shadow'>
-          <Icon name='folder' type='solid' />
+      <div className='border border-amber-600 bg-gray-50 drop-shadow transition-shadow flex flex-row justify-around py-4 rounded-2xl'>
+          <Icon name='folder' type='solid'  className='text-sky-600'/>
           <Icon name='folder-open'  type='regular' />
           <Icon name='folder-plus'  type='solid' />
           <Icon name='file-circle-plus'  type='solid' />
