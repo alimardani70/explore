@@ -37,7 +37,7 @@ const Input: React.FC<propsType> = ({
             autoFocus={autoFocus}
             onChange={changeHandler}
             value={val}
-            className='border border-gray-500 bg-gray-100 rounded'
+            className='border border-gray-500 bg-gray-100 '
         />
     );
 };

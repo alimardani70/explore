@@ -36,17 +36,17 @@ const NewItem: React.FC<propsType> = ({
         setShowInput(false)
     }
     return (
-        <Row>
-            {showInput && <Button onClick={closeHandler}>
+        <Row className='border border-gray-300 rounded py-0 content-stretch place-content-stretch overflow-hidden'>
+            {showInput && <Button onClick={closeHandler} className='h-full bg-red-600 text-white px-1'>
                 <Icon name='close' type='solid'/>
             </Button>}
-            {!showInput && <Button onClick={addNewHandler}>
+            {!showInput && <Button onClick={addNewHandler} className=' px-2'>
                 {icon}
             </Button>}
-            {showInput && <Form>
-                <Input name='name' onChange={changeHandler} value={itemValue}/>
-                <Button onClick={submitHandler}>
-                    <Icon name='check-square' type='solid'/>
+            {showInput && <Form className='h-full flex content-stretch'>
+                <Input name='name' onChange={changeHandler} value={itemValue} />
+                <Button onClick={submitHandler} className='h-full bg-green-700 text-white px-1'>
+                    <Icon name='check' type='solid' className=''/>
                 </Button>
             </Form>}
         </Row>

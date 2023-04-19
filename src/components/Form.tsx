@@ -1,12 +1,13 @@
 import React from 'react';
 
 type propsType = {
- children: any
+ children: any,
+ className?: string
 }
 
-const Form: React.FC<propsType>  = ({children }) => {
+const Form: React.FC<propsType>  = ({children ,className=''}) => {
  return (
-  <form>
+  <form className={className}>
    {children}
   </form>
  );

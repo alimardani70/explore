@@ -1,21 +1,20 @@
-import React, {FormEvent, ReactNode, useState} from 'react';
-import Form from "./Form";
-import Input from "./Input";
+import React from 'react';
 import Button from "./Button";
 import Icon from "./Icon";
-import {fileType, folderType} from "../store/structureSlice";
 import Row from "./Row";
 
 
 type propsType = {
     path: string;
     onClick?: (path: string) => void;
+    isFolder?: boolean
 }
 
 const NewItem: React.FC<propsType> = ({
                                           path,
-                                          onClick
-                                          }) => {
+                                          onClick,
+                                          isFolder = true
+                                      }) => {
 
     const clickHandler = (e: React.MouseEvent<HTMLElement>) => {
         if (onClick) {
@@ -24,12 +23,12 @@ const NewItem: React.FC<propsType> = ({
     }
     return (
         <Row>
-                 {
-                     // path  !== './root' &&
-                     <Button onClick={clickHandler} className='bg-red-600 px-2 py-1 rounded'>
-                         <Icon name={'trash-can'} type='regular' className='text-white'/>
-                     </Button>
-                 }
+            {
+                (path !== './root' || !isFolder ) &&
+                <Button onClick={clickHandler} className='bg-red-600 px-2 py-1 rounded'>
+                    <Icon name={'trash-can'} type='regular' className='text-white'/>
+                </Button>
+            }
 
         </Row>
 

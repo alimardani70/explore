@@ -47,7 +47,11 @@ const Directory: React.FC<folderType> = ({
             return <Row className='space-x-2 bg-gray-200 mt-2 px-2 py-2 rounded'>
                 <div>{icon}</div>
                 <div>{item.name}.{item.extension}</div>
-                <DeleteItem path={item.path} onClick={(path)=>romoveFileHandler(path,item.name ,item.extension  )} />
+                <DeleteItem
+                    path={item.path}
+                    onClick={(path)=>romoveFileHandler(path,item.name ,item.extension  )}
+                    isFolder={false}
+                />
             </Row>
         } else {
             if ('content' in item)
